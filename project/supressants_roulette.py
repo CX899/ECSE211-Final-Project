@@ -2,18 +2,26 @@
 
 from utils.brick import BP, wait_ready_sensors, Motor, reset_brick
 import time
-import line_tracking
-
+import project.line_tracking as line_tracking
 
 #### SETUP ####
 CAROUSSEL_MOTOR = Motor("A")
 LEVER_MOTOR = Motor("B")
-motor_speed = 50
+MOTOR_SPEED = 50
 MOTOR_POLL_SLEEP = 0.05
 POWER_LIMIT = 100
 SPEED_LIMIT = 720
 
 #### FUNCTIONS ####
+def kill():
+    """
+    Kills all sound and motion and stops the program.
+    """
+    CAROUSSEL_MOTOR.set_power(0) # Stop motors
+    LEVER_MOTOR.set_power(0) # Stop motors
+    BP.reset_all()
+    exit()
+
 def wait_for_motor(motor: Motor):
     while BP.get_motor_status(motor.port)[3] == 0:
         time.sleep(MOTOR_POLL_SLEEP)
@@ -43,14 +51,13 @@ def select_block(supressant_blocks_delivered):
         None
     """
     if supressant_blocks_delivered == 0:
-        BP.set_motor_position(BP.PORT_B, 360)
-    elif supressant_blocks_delivered == 1:
-        BP.set_motor_position(BP.PORT_A, 60)
-        BP.set_motor_position(BP.PORT_B, 360)
+        LEVER_MOTOR.set_position_relative(-360)
+        wait_for_motor(LEVER_MOTOR)
     else:
-        BP.set_motor_position(BP.PORT_A, 60)
-        BP.set_motor_position(BP.PORT_B, 360)
-    
+        CAROUSSEL_MOTOR.set_position_relative(60)
+        wait_for_motor(CAROUSSEL_MOTOR)
+        LEVER_MOTOR.set_position_relative(-360)
+
     return None
 
 #### MAIN LOOP ####
@@ -58,15 +65,8 @@ if __name__ == '__main__':
     wait_ready_sensors()
     supressant_blocks_delivered = 0
     try:
-        while True:
-            ##select_block(supressant_blocks_delivered)
-            ##supressant_blocks_delivered += 1
-            BP.set_motor_position(BP.PORT_B, 360)
-            wait_for_motor(LEVER_MOTOR)
-            BP.set_motor_position(BP.PORT_A, 60)
-            wait_for_motor(CAROUSSEL_MOTOR)
-            BP.set_motor_position(BP.PORT_B, 360)
-            wait_for_motor(LEVER_MOTOR)
+        select_block(supressant_blocks_delivered)
+        supressant_blocks_delivered += 1
     except KeyboardInterrupt:
         kill()
         
