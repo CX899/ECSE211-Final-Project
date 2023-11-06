@@ -5,7 +5,7 @@ import math
 
 CS = EV3ColorSensor(1)
 color_centers = {}
-distance_cap = 10
+distance_cap = 0.5
 
 def train_model():
     """ Train KNN model based on data from csvs in the color_data folder
@@ -20,7 +20,7 @@ def train_model():
             The centers of each color cluster
     """
     for color in ["blue", "red", "green"]:
-        with open(f"./color_data/{color}.csv", "r") as f:
+        with open(f"color_data/{color}.csv", "r") as f:
             red_sum = 0
             green_sum = 0
             blue_sum = 0
@@ -35,7 +35,7 @@ def train_model():
                 red_sum += point[0]
                 green_sum += point[1]
                 blue_sum += point[2]
-                n += 1
+                n_points += 1
             color_centers[color] = [red_sum / n_points, green_sum / n_points, blue_sum / n_points]
     return color_centers
             
@@ -58,10 +58,15 @@ def classify(point, color_centers):
         color: int
             0 for blue, 1 for red, 2 for green, or 3 for other.
     """
-    red_distance = math.sqrt(sum(math.pow(point[i] - color_centers["red"][i], 2) for i in range(len(3))))
-    green_distance = math.sqrt(sum(math.pow(point[i] - color_centers["green"][i], 2) for i in range(len(3))))
-    blue_distance = math.sqrt(sum(math.pow(point[i] - color_centers["blue"][i], 2) for i in range(len(3))))
+    point = point[:3]
+    total = sum(point)
+    for i in range(len(point)):
+        point[i] = point[i] / total
     
+    red_distance = math.sqrt(sum(math.pow(point[i] - color_centers["red"][i], 2) for i in range(3)))
+    green_distance = math.sqrt(sum(math.pow(point[i] - color_centers["green"][i], 2) for i in range(3)))
+    blue_distance = math.sqrt(sum(math.pow(point[i] - color_centers["blue"][i], 2) for i in range(3)))
+
     if red_distance < green_distance and red_distance < blue_distance:
         if red_distance > distance_cap:
             return 3
@@ -74,4 +79,11 @@ def classify(point, color_centers):
         return 3
     return 2
 
-    
+if __name__ == '__main__':
+    clusters = train_model()
+    for cluster in clusters:
+        print(f"{cluster}: {clusters[cluster]}")
+    print(classify([97, 24, 10], clusters))
+    print(classify([13, 52, 15], clusters))
+    print(classify([18, 23, 20], clusters))
+    print(classify([0, 0, 4], clusters))
