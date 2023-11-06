@@ -83,6 +83,18 @@ def select_block(color_to_select):
 
     return None
 
+def reset_carousel():
+    # Resets carousel and lever to 0 position.
+    CAROUSSEL_MOTOR.set_position(0)
+    wait_for_motor(CAROUSSEL_MOTOR)
+    LEVER_MOTOR.set_position(0)
+    wait_for_motor(LEVER_MOTOR)
+
+def init_all():
+    init_motor(CAROUSSEL_MOTOR)
+    init_motor(LEVER_MOTOR)
+    wait_ready_sensors()    
+
 #### MAIN LOOP ####
 if __name__ == '__main__':
     init_motor(CAROUSSEL_MOTOR)
