@@ -86,6 +86,6 @@ try:
     move.stop()
     sr.kill()
 
-except KeyboardInterrupt():
+except BaseException():
     move.stop()
     sr.kill()
