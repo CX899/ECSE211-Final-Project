@@ -2,7 +2,7 @@
 
 from utils.brick import BP, wait_ready_sensors, Motor, reset_brick
 import time
-import project.line_tracking as line_tracking
+import line_tracking
 
 #### SETUP ####
 CAROUSSEL_MOTOR = Motor("A")
