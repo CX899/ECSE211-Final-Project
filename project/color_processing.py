@@ -1,11 +1,11 @@
 from utils.brick import EV3ColorSensor
-from sklearn.neighbors import KNeighborsClassifier
+import math
 
 #### GLOBAL VARIABLES ####
 
 CS = EV3ColorSensor(1)
-model = KNeighborsClassifier(weights="distance")
-distance_cap = 0.9 # Limit on model certainty. Subject to change during testing.
+color_centers = {}
+distance_cap = 0.5
 
 def train_model():
     """ Train KNN model based on data from csvs in the color_data folder
@@ -16,25 +16,33 @@ def train_model():
 
     Returns
     -------
-        model : Model
-            The trained model
+        color_centers : dict<String, list<int>>
+            The centers of each color cluster
     """
-    data = []
-    labels = []
-
-    for i, color in enumerate(["blue", "red", "green"]):
-        with open(f"./color_data/{color}.csv", "r") as f:
+    for color in ["blue", "red", "green"]:
+        with open(f"color_data/{color}.csv", "r") as f:
+            red_sum = 0
+            green_sum = 0
+            blue_sum = 0
+            n_points = 0
             for line in f.readlines():
-                point = line.strip("[]").split(",")
-                for i in range(len(point)):
-                    point[i] = int(point[i])
-                data.append(point)
-                labels.append(i)
-    
-    model.fit(data, labels)
-    return model
+                point = line.strip("[]").split(",")[:3]
+                for j in range(len(point)):
+                    point[j] = int(point[j])
+                total = sum(point)
+                for j in range(len(point)):
+                    point[j] = point[j] / total
+                red_sum += point[0]
+                green_sum += point[1]
+                blue_sum += point[2]
+                n_points += 1
+            color_centers[color] = [red_sum / n_points, green_sum / n_points, blue_sum / n_points]
+    return color_centers
+            
+            
+                
 
-def classify(point, model):
+def classify(point, color_centers):
     """ Classifies an rgb point as blue, red, or green. Classifies as other if confidence on that
     point is beyond the threshold given by distance_cap.
 
@@ -42,16 +50,40 @@ def classify(point, model):
     ------
         point: list<int>
             red, green, and blue values
-        model : Model
-            The model with which to classify colors
+        color_centers : dict<String, list<int>>
+            The centers of each color cluster
 
     Returns
     -------
         color: int
             0 for blue, 1 for red, 2 for green, or 3 for other.
     """
-    probabilities = model.predict_proba([point])
-    confidence = max(probabilities)
-    if confidence < distance_cap:
+    point = point[:3]
+    total = sum(point)
+    for i in range(len(point)):
+        point[i] = point[i] / total
+    
+    red_distance = math.sqrt(sum(math.pow(point[i] - color_centers["red"][i], 2) for i in range(3)))
+    green_distance = math.sqrt(sum(math.pow(point[i] - color_centers["green"][i], 2) for i in range(3)))
+    blue_distance = math.sqrt(sum(math.pow(point[i] - color_centers["blue"][i], 2) for i in range(3)))
+
+    if red_distance < green_distance and red_distance < blue_distance:
+        if red_distance > distance_cap:
+            return 3
+        return 1
+    elif blue_distance < green_distance and blue_distance < red_distance:
+        if blue_distance > distance_cap:
+            return 3
+        return 0
+    elif green_distance > distance_cap:
         return 3
-    return probabilities.index(confidence)
+    return 2
+
+if __name__ == '__main__':
+    clusters = train_model()
+    for cluster in clusters:
+        print(f"{cluster}: {clusters[cluster]}")
+    print(classify([97, 24, 10], clusters))
+    print(classify([13, 52, 15], clusters))
+    print(classify([18, 23, 20], clusters))
+    print(classify([0, 0, 4], clusters))

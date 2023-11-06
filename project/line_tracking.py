@@ -20,7 +20,7 @@ LT_LOW_POWER = 18
 
 wait_ready_sensors(True) # Input True to see what the robot is trying to initialize! False to be silent.
 
-def track_line(color, model):
+def track_line(color, color_centers):
     """
     Runs an infinite loop to follow a colored line until a green block is reached. 
     Does so by driving at a very slight angle until the line is no longer in sight, then switching direction,
@@ -42,7 +42,7 @@ def track_line(color, model):
     RIGHT_MOTOR.set_power(LT_LOW_POWER)
     while color_detected != 2:
         sleep(SENSOR_POLL_SLEEP)
-        color_detected = classify(COLOR_SENSOR.get_value(), model)
+        color_detected = classify(COLOR_SENSOR.get_value(), color_centers)
         if color_detected != color:
             if LEFT_MOTOR.get_power() == LT_HIGH_POWER:
                 LEFT_MOTOR.set_power(LT_LOW_POWER)
