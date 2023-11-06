@@ -83,7 +83,9 @@ try:
 
         destination.pop(0)
 
+    move.stop()
     sr.kill()
 
 except KeyboardInterrupt():
+    move.stop()
     sr.kill()

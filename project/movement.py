@@ -14,6 +14,10 @@ MOTOR_POLL_SLEEP = 0.05
 POWER_LIMIT = 100
 SPEED_LIMIT = 720
 
+def stop():
+    LEFT_MOTOR.set_power(0)
+    RIGHT_MOTOR.set_power(0)
+
 def wait_for_motor(motor: Motor):
     while BP.get_motor_status(motor.port)[3] == 0:
         time.sleep(MOTOR_POLL_SLEEP)
