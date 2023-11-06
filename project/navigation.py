@@ -28,7 +28,7 @@ try:
     while len(locations) > 0:
         destination = locations[0]
 
-        if destination[0] < locations[0]:
+        if cur_location[0] < destination[0]:
             if facing == 1:
                 move.turn_90()
             elif facing == 2:
@@ -36,7 +36,7 @@ try:
             elif facing == 3:
                 move.turn_90(False)
             facing = 0
-        elif destination[0] > locations[0]:
+        elif cur_location[0] > destination[0]:
             if facing == 1:
                 move.turn_90(False)
             elif facing == 3:
@@ -53,7 +53,7 @@ try:
                 cur_location[0] -= 1
             move.align_turn()
 
-        if destination[1] < locations[1]:
+        if cur_location[1] < destination[1]:
             if facing == 0:
                 move.turn_90(False)
             elif facing == 2:
@@ -61,7 +61,7 @@ try:
             elif facing == 3:
                 move.turn_180()
             facing = 1
-        elif destination[1] > locations[1]:
+        elif cur_location[1] > destination[1]:
             if facing == 0:
                 move.turn_90()
             elif facing == 1:
