@@ -25,7 +25,10 @@ def train_model():
     for i, color in enumerate(["blue", "red", "green"]):
         with open(f"./color_data/{color}.csv", "r") as f:
             for line in f.readlines():
-                data.append(line.split(","))
+                point = line.strip("[]").split(",")
+                for i in range(len(point)):
+                    point[i] = int(point[i])
+                data.append(point)
                 labels.append(i)
     
     model.fit(data, labels)
