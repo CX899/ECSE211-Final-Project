@@ -30,14 +30,14 @@ def wait_for_motor(motor: Motor):
     
 def init_motor(motor: Motor):
     try:
-        motor.reset_encoder()
+        motor.set_position(0)
         motor.set_limits(power=POWER_LIMIT, speed=SPEED_LIMIT)
         motor.set_power(0)
     except IOError as error:
         print(error)
 
 
-def select_block(supressant_blocks_delivered):
+def select_block(color_to_select):
     """
     Drops the correct fire_suppresant based on the total number of fire_suppresants already delivered.
 
@@ -50,11 +50,33 @@ def select_block(supressant_blocks_delivered):
     -------
         None
     """
-    if supressant_blocks_delivered == 0:
+    # Boot in red suppressant
+    if color_to_select == 0:
         LEVER_MOTOR.set_position_relative(-360)
         wait_for_motor(LEVER_MOTOR)
-    else:
+    # Boot in green suppressant    
+    elif color_to_select == 1:
         CAROUSSEL_MOTOR.set_position_relative(60)
+        wait_for_motor(CAROUSSEL_MOTOR)
+        LEVER_MOTOR.set_position_relative(-360)
+    # Boot in yellow suppressant
+    elif color_to_select == 2:
+        CAROUSSEL_MOTOR.set_position_relative(120)
+        wait_for_motor(CAROUSSEL_MOTOR)
+        LEVER_MOTOR.set_position_relative(-360)
+    # Boot in purple suppressant
+    elif color_to_select == 3:
+        CAROUSSEL_MOTOR.set_position_relative(180)
+        wait_for_motor(CAROUSSEL_MOTOR)
+        LEVER_MOTOR.set_position_relative(-360)
+    # Boot in orange suppressant
+    elif color_to_select == 4:
+        CAROUSSEL_MOTOR.set_position_relative(-120)
+        wait_for_motor(CAROUSSEL_MOTOR)
+        LEVER_MOTOR.set_position_relative(-360)
+    # Boot in blue suppressant
+    else:
+        CAROUSSEL_MOTOR.set_position_relative(-60)
         wait_for_motor(CAROUSSEL_MOTOR)
         LEVER_MOTOR.set_position_relative(-360)
 
@@ -62,11 +84,13 @@ def select_block(supressant_blocks_delivered):
 
 #### MAIN LOOP ####
 if __name__ == '__main__':
+    init_motor(CAROUSSEL_MOTOR)
+    init_motor(LEVER_MOTOR)
     wait_ready_sensors()
-    supressant_blocks_delivered = 0
     try:
-        select_block(supressant_blocks_delivered)
-        supressant_blocks_delivered += 1
+        color_to_select = 0 # Dummy variable
+        #color_to_select = line_tracking.determine_color()
+        select_block(color_to_select)
     except KeyboardInterrupt:
         kill()
         
