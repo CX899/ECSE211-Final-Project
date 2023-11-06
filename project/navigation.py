@@ -44,8 +44,9 @@ try:
             elif facing == 0:
                 move.turn_180()
             facing = 2
-
+        
         while cur_location[0] != destination[0]:
+            move.increment_forward()
             lt.track_line(0, color_centers)
             if facing == 0:
                 cur_location[0] += 1
@@ -71,6 +72,7 @@ try:
             facing = 3
         
         while cur_location[1] != destination[1]:
+            move.increment_forward()
             lt.track_line(1, color_centers)
             if facing == 1:
                 cur_location[1] += 1
