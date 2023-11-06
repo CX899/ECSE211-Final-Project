@@ -9,7 +9,7 @@ from time import sleep
 
 #### GLOBAL VARIABLES ####
 
-COLOR_SENSOR = EV3ColorSensor(...)
+COLOR_SENSOR = EV3ColorSensor(1)
 SENSOR_POLL_SLEEP = 0.05
 
 LEFT_MOTOR = Motor("A")
