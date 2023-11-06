@@ -43,8 +43,9 @@ def select_block(color_to_select):
 
     Params
     ------
-        supressant_blocks_delivered: int
-            The total number of fire_suppresants already delivered
+        color_to_select: int
+            The color of the fire suppressant to be dropped. 0 for red, 1 for green, 2 for yellow, 3
+            for purple, 4 for orange, 5 for blue
 
     Returns
     -------
