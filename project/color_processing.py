@@ -16,10 +16,10 @@ def train_model():
 
     Returns
     -------
-        model : Model
-            The trained model
+        color_centers : dict<String, list<int>>
+            The centers of each color cluster
     """
-    for i, color in enumerate(["blue", "red", "green"]):
+    for color in ["blue", "red", "green"]:
         with open(f"./color_data/{color}.csv", "r") as f:
             red_sum = 0
             green_sum = 0
@@ -27,21 +27,22 @@ def train_model():
             n_points = 0
             for line in f.readlines():
                 point = line.strip("[]").split(",")[:3]
-                for i in range(len(point)):
-                    point[i] = int(point[i])
+                for j in range(len(point)):
+                    point[j] = int(point[j])
                 total = sum(point)
-                for i in range(len(point)):
-                    point[i] = point[i] / total
+                for j in range(len(point)):
+                    point[j] = point[j] / total
                 red_sum += point[0]
                 green_sum += point[1]
                 blue_sum += point[2]
                 n += 1
             color_centers[color] = [red_sum / n_points, green_sum / n_points, blue_sum / n_points]
+    return color_centers
             
             
                 
 
-def classify(point):
+def classify(point, color_centers):
     """ Classifies an rgb point as blue, red, or green. Classifies as other if confidence on that
     point is beyond the threshold given by distance_cap.
 
@@ -49,8 +50,8 @@ def classify(point):
     ------
         point: list<int>
             red, green, and blue values
-        model : Model
-            The model with which to classify colors
+        color_centers : dict<String, list<int>>
+            The centers of each color cluster
 
     Returns
     -------

@@ -3,7 +3,7 @@ import movement as move
 import line_tracking as lt
 import color_processing
 
-model = color_processing.train_model()
+color_centers = color_processing.train_model()
 
 cur_location = [0, 0]
 facing = 0 # Facing in pos x is 0, pos y is 1, neg x 2, neg y 3
@@ -44,7 +44,7 @@ while len(locations) > 0:
         facing = 2
 
     while cur_location[0] != destination[0]:
-        lt.track_line(0, model)
+        lt.track_line(0, color_centers)
         if facing == 0:
             cur_location[0] += 1
         else:
@@ -69,7 +69,7 @@ while len(locations) > 0:
         facing = 3
     
     while cur_location[1] != destination[1]:
-        lt.track_line(1, model)
+        lt.track_line(1, color_centers)
         if facing == 1:
             cur_location[1] += 1
         else:
