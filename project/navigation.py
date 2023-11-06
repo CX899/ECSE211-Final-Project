@@ -81,7 +81,7 @@ try:
         sr.reset_carousel()
         sr.select_block(colors.index(destination[2]))
 
-        destination.pop(0)
+        locations.pop(0)
 
     move.stop()
     sr.kill()
