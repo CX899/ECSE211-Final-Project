@@ -38,7 +38,37 @@ while len(locations) > 0:
 
     while cur_location[0] != destination[0]:
         lt.track_line(0)
-        cur_location[0] += 1
+        if facing == 0:
+            cur_location[0] += 1
+        else:
+            cur_location[0] -= 1
         move.align_turn()
+
+    if destination[1] < locations[1]:
+        if facing == 0:
+            move.turn_90(False)
+        elif facing == 2:
+            move.turn_90()
+        elif facing == 3:
+            move.turn_180()
+        facing = 1
+    elif destination[1] > locations[1]:
+        if facing == 0:
+            move.turn_90()
+        elif facing == 1:
+            move.turn_180()
+        elif facing == 2:
+            move.turn_90(False)
+        facing = 3
+    
+    while cur_location[1] != destination[1]:
+        lt.track_line(1)
+        if facing == 1:
+            cur_location[1] += 1
+        else:
+            cur_location[1] -= 1
+        move.align_turn()
+    
+    destination.pop(0)
 
 sr.kill()
