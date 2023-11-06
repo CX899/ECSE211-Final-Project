@@ -13,6 +13,7 @@ MOTOR_SPEED = 50
 MOTOR_POLL_SLEEP = 0.05
 POWER_LIMIT = 100
 SPEED_LIMIT = 720
+FORWARD_INCREMENT = 20
 
 def stop():
     LEFT_MOTOR.set_power(0)
@@ -53,6 +54,11 @@ def turn_90(turn_cw=True):
 def turn_180():
     for i in range(2):
         turn_90()
+
+def increment_forward():
+    angle = 180 * FORWARD_INCREMENT / math.pi / WHEEL_RADIUS
+    LEFT_MOTOR.set_position_relative(angle)
+    RIGHT_MOTOR.set_position_relative(angle)
 
 def align_turn():
     """ Rolls robot forward to center green square between the motors before turning,
