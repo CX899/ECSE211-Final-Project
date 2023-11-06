@@ -10,7 +10,7 @@ if __name__ == "__main__":
         input(f"Press enter to start collecting {color}")
         print(f"COLLECTING {color.upper()}")
         try:
-            f = open(f"./color_data/{color}.csv")
+            f = open(f"./color_data/{color}.csv", "w")
             for i in range(100):
                 data = CS.get_value()
                 f.write(f"{data}\n")
