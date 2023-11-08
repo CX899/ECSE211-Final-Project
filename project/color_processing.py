@@ -1,5 +1,6 @@
 from utils.brick import EV3ColorSensor
 import math
+import time
 
 #### GLOBAL VARIABLES ####
 
@@ -81,9 +82,6 @@ def classify(point, color_centers):
 
 if __name__ == '__main__':
     clusters = train_model()
-    for cluster in clusters:
-        print(f"{cluster}: {clusters[cluster]}")
-    print(classify([97, 24, 10], clusters))
-    print(classify([13, 52, 15], clusters))
-    print(classify([18, 23, 20], clusters))
-    print(classify([0, 0, 4], clusters))
+    for i in range(1000):
+        time.sleep(0.1)
+        print(classify(CS.get_value(), clusters))
