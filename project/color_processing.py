@@ -1,4 +1,4 @@
-from utils.brick import EV3ColorSensor
+from utils.brick import EV3ColorSensor, wait_ready_sensors
 import math
 import time
 
@@ -6,7 +6,7 @@ import time
 
 CS = EV3ColorSensor(1)
 color_centers = {}
-distance_cap = 0.5
+distance_cap = 0.2
 
 def train_model():
     """ Train KNN model based on data from csvs in the color_data folder
@@ -82,6 +82,7 @@ def classify(point, color_centers):
 
 if __name__ == '__main__':
     clusters = train_model()
+    wait_ready_sensors(True)
     for i in range(1000):
         time.sleep(0.1)
         print(classify(CS.get_value(), clusters))
