@@ -13,7 +13,7 @@ MOTOR_SPEED = 50
 MOTOR_POLL_SLEEP = 0.05
 POWER_LIMIT = 100
 SPEED_LIMIT = 720
-FORWARD_INCREMENT = 20
+FORWARD_INCREMENT = 22
 
 def stop():
     LEFT_MOTOR.set_power(0)
@@ -49,6 +49,7 @@ def turn_90(turn_cw=True):
     else:
         LEFT_MOTOR.set_position_relative(-angle)
         RIGHT_MOTOR.set_position_relative(angle)
+    wait_for_motor(RIGHT_MOTOR)
 
 
 def turn_180():
@@ -56,9 +57,12 @@ def turn_180():
         turn_90()
 
 def increment_forward():
+    """ Aligns drop chute to the green square. 
+    """
     angle = 180 * FORWARD_INCREMENT / math.pi / WHEEL_RADIUS
     LEFT_MOTOR.set_position_relative(angle)
     RIGHT_MOTOR.set_position_relative(angle)
+    wait_for_motor(RIGHT_MOTOR)
 
 def align_turn():
     """ Rolls robot forward to center green square between the motors before turning,
@@ -67,3 +71,4 @@ def align_turn():
     angle = 180 * COLOR_SENSOR_OFFSET / math.pi / WHEEL_RADIUS
     LEFT_MOTOR.set_position_relative(angle)
     RIGHT_MOTOR.set_position_relative(angle)
+    wait_for_motor(RIGHT_MOTOR)
