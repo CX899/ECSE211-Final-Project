@@ -4,8 +4,8 @@ import math, time
 #### GLOBAL VARIABLES ####
 # Note: these variables are temporary and subject to change upon hardware completion
 
-LEFT_MOTOR = Motor("A")
-RIGHT_MOTOR = Motor("B") 
+LEFT_MOTOR = Motor("D")
+RIGHT_MOTOR = Motor("C") 
 MOTOR_SEPERATION = 40 # Functionally the width of the robot, used for calculating turns
 WHEEL_RADIUS = 5 
 COLOR_SENSOR_OFFSET = 10 # Distance from color sensor to motors, used to realign sensor for turns
@@ -72,3 +72,17 @@ def align_turn():
     LEFT_MOTOR.set_position_relative(angle)
     RIGHT_MOTOR.set_position_relative(angle)
     wait_for_motor(RIGHT_MOTOR)
+
+if __name__ == '__main__':
+    init_motor(LEFT_MOTOR)
+    init_motor(RIGHT_MOTOR)
+    increment_forward()
+    time.sleep(1)
+    align_turn()
+    time.sleep(1)
+    turn_180()
+    time.sleep(1)
+    turn_90()
+    time.sleep(1)
+    turn_90(False)
+    time.sleep(1)
