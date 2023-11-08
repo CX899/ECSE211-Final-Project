@@ -59,7 +59,7 @@ def turn_180():
 def increment_forward():
     """ Aligns drop chute to the green square. 
     """
-    angle = 180 * FORWARD_INCREMENT / math.pi / WHEEL_RADIUS
+    angle = -180 * FORWARD_INCREMENT / math.pi / WHEEL_RADIUS
     LEFT_MOTOR.set_position_relative(angle)
     RIGHT_MOTOR.set_position_relative(angle)
     wait_for_motor(RIGHT_MOTOR)
@@ -68,7 +68,7 @@ def align_turn():
     """ Rolls robot forward to center green square between the motors before turning,
     so as to align the color sensor with the perpendicular line when the turn is complete.
     """
-    angle = 180 * COLOR_SENSOR_OFFSET / math.pi / WHEEL_RADIUS
+    angle = -180 * COLOR_SENSOR_OFFSET / math.pi / WHEEL_RADIUS
     LEFT_MOTOR.set_position_relative(angle)
     RIGHT_MOTOR.set_position_relative(angle)
     wait_for_motor(RIGHT_MOTOR)
