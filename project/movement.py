@@ -4,8 +4,8 @@ import math, time
 #### GLOBAL VARIABLES ####
 # Note: these variables are temporary and subject to change upon hardware completion
 
-LEFT_MOTOR = Motor("A")
-RIGHT_MOTOR = Motor("B") 
+LEFT_MOTOR = Motor("D")
+RIGHT_MOTOR = Motor("C") 
 MOTOR_SEPERATION = 40 # Functionally the width of the robot, used for calculating turns
 WHEEL_RADIUS = 5 
 COLOR_SENSOR_OFFSET = 10 # Distance from color sensor to motors, used to realign sensor for turns
