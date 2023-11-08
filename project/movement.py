@@ -28,7 +28,7 @@ def wait_for_motor(motor: Motor):
 def init_motor(motor: Motor):
     try:
         motor.reset_encoder()
-        motor.set_limits(power=POWER_LIMIT, speed=SPEED_LIMIT)
+        motor.set_limits(POWER_LIMIT, SPEED_LIMIT)
         motor.set_power(0)
     except IOError as error:
         print(error)
