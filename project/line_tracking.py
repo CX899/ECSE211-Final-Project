@@ -40,7 +40,7 @@ def track_line(color_centers):
     point_right = COLOR_SENSOR_2.get_value()
     color_left = classify(point_left, color_centers)
     color_right = classify(point_right, color_centers)
-
+    
     while color_left != 2 and color_right != 2:
         if color_left != 3:
             LEFT_MOTOR.set_power(LT_LOW_POWER)
@@ -82,4 +82,8 @@ def determine_color():
 
 
 if __name__ == "__main__":
-    determine_color()
+    color_centers = color_processing.train_model()
+    track = "y"
+    while track == "y":
+        track_line(color_centers)
+        track = input("Enter y to go again, anything else to stop: ").lower()
