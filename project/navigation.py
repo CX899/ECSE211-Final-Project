@@ -24,6 +24,7 @@ for i in range(3):
     while not color in colors:
         color = input("Fire color: ")
     locations.append([x, y, color])
+locations.append([0, 0, "None"])
 
 drop_fire = False
 color = 0
