@@ -11,7 +11,6 @@ pytest = "*"
 matplotlib = "*"
 numpy = "*"
 autopep8 = "*"
-sklearn = "*"
 
 [requires]
 python_version = "3.9"
