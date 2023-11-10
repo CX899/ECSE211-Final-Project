@@ -1,5 +1,7 @@
 from utils.brick import Motor, BP
 import math, time
+import color_processing
+import line_tracking
 
 #### GLOBAL VARIABLES ####
 # Note: these variables are temporary and subject to change upon hardware completion
@@ -34,29 +36,6 @@ def init_motor(motor: Motor):
     except IOError as error:
         print(error)
 
-def turn_90(turn_cw=True):
-    """ Rotates robot 90 degrees from current position. 
-
-    Params
-    ------
-        turn_cw : boolean
-            True if turning clockwise, False otherwise
-    """
-    angle = 45 * MOTOR_SEPERATION / WHEEL_RADIUS
-    
-    if turn_cw:
-        LEFT_MOTOR.set_position_relative(angle)
-        RIGHT_MOTOR.set_position_relative(-angle)
-    else:
-        LEFT_MOTOR.set_position_relative(-angle)
-        RIGHT_MOTOR.set_position_relative(angle)
-    wait_for_motor(RIGHT_MOTOR)
-
-
-def turn_180():
-    for i in range(2):
-        turn_90()
-
 def increment_forward():
     """ Aligns drop chute to the green square. 
     """
@@ -77,14 +56,13 @@ def align_turn():
 if __name__ == '__main__':
     init_motor(LEFT_MOTOR)
     init_motor(RIGHT_MOTOR)
+    color_centers = color_processing.train_model()
+
+    track = "y"
+    while track == "y":
+        line_tracking.track_line(color_centers)
+        init_motor(LEFT_MOTOR)
+        init_motor(RIGHT_MOTOR)
+        align_turn
+        track = input("Enter y to go again, anything else to stop: ").lower()
     
-    increment_forward()
-    time.sleep(1)
-    align_turn()
-    time.sleep(1)
-    turn_180()
-    time.sleep(1)
-    turn_90()
-    time.sleep(1)
-    turn_90(False)
-    time.sleep(1)

@@ -7,10 +7,10 @@ import line_tracking
 #### SETUP ####
 CAROUSSEL_MOTOR = Motor("A")
 LEVER_MOTOR = Motor("B")
-MOTOR_SPEED = 50
+MOTOR_SPEED = 25
 MOTOR_POLL_SLEEP = 0.05
-POWER_LIMIT = 100
-SPEED_LIMIT = 720
+POWER_LIMIT = 75
+SPEED_LIMIT = 100
 
 #### FUNCTIONS ####
 def kill():
@@ -97,9 +97,8 @@ def init_all():
 
 #### MAIN LOOP ####
 if __name__ == '__main__':
-    init_motor(CAROUSSEL_MOTOR)
-    init_motor(LEVER_MOTOR)
-    wait_ready_sensors()
+    init_all()
+    reset_carousel()
     try:
         color_to_select = 0 # Dummy variable
         #color_to_select = line_tracking.determine_color()
