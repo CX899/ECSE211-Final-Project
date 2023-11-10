@@ -3,7 +3,7 @@
 """
 This code is used to detect the color of the line and output the data to the different subsystems.
 """
-from color_processing import classify
+import color_processing
 from utils.brick import EV3ColorSensor, wait_ready_sensors, Motor
 from time import sleep
 
@@ -38,8 +38,8 @@ def track_line(color_centers):
     """
     point_left = COLOR_SENSOR_1.get_value()
     point_right = COLOR_SENSOR_2.get_value()
-    color_left = classify(point_left, color_centers)
-    color_right = classify(point_right, color_centers)
+    color_left = color_processing.classify(point_left, color_centers)
+    color_right = color_processing.classify(point_right, color_centers)
     
     while color_left != 2 and color_right != 2:
         if color_left != 3:
@@ -55,8 +55,8 @@ def track_line(color_centers):
         sleep(SENSOR_POLL_SLEEP)
         point_left = COLOR_SENSOR_1.get_value()
         point_right = COLOR_SENSOR_2.get_value()
-        color_left = classify(point_left, color_centers)
-        color_right = classify(point_right, color_centers)
+        color_left = color_processing.classify(point_left, color_centers)
+        color_right = color_processing.classify(point_right, color_centers)
 
     LEFT_MOTOR.set_power(0)
     RIGHT_MOTOR.set_power(0)
