@@ -61,6 +61,9 @@ def classify(point, color_centers):
     """
     point = point[:3]
     total = sum(point)
+    if total == 0:
+        return 3
+    
     for i in range(len(point)):
         point[i] = point[i] / total
     
