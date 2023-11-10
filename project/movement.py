@@ -6,15 +6,14 @@ import math, time
 
 LEFT_MOTOR = Motor("D")
 RIGHT_MOTOR = Motor("C") 
-MOTOR_SEPERATION = 40 # Functionally the width of the robot, used for calculating turns
-WHEEL_RADIUS = 5 
+MOTOR_SEPERATION = 8.5 # Functionally the width of the robot, used for calculating turns
+WHEEL_RADIUS = 2.15
 COLOR_SENSOR_OFFSET = 10 # Distance from color sensor to motors, used to realign sensor for turns
 MOTOR_SPEED = 50
 MOTOR_POLL_SLEEP = 0.05
 POWER_LIMIT = 100
 SPEED_LIMIT = 720
-FORWARD_INCREMENT = 22
-ALIGNED_INCREMENT = 5
+FORWARD_INCREMENT = 15
 
 def stop():
     LEFT_MOTOR.set_power(0)
@@ -58,13 +57,10 @@ def turn_180():
     for i in range(2):
         turn_90()
 
-def increment_forward(aligned=False):
+def increment_forward():
     """ Aligns drop chute to the green square. 
     """
-    if aligned:
-        angle = -180 * ALIGNED_INCREMENT / math.pi / WHEEL_RADIUS
-    else:
-        angle = -180 * FORWARD_INCREMENT / math.pi / WHEEL_RADIUS
+    angle = -180 * FORWARD_INCREMENT / math.pi / WHEEL_RADIUS
     LEFT_MOTOR.set_position_relative(angle)
     RIGHT_MOTOR.set_position_relative(angle)
     wait_for_motor(RIGHT_MOTOR)
