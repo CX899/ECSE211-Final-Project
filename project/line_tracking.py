@@ -16,8 +16,8 @@ SENSOR_POLL_SLEEP = 0.05
 LEFT_MOTOR = Motor("A")
 RIGHT_MOTOR = Motor("B") 
 
-LT_HIGH_POWER = 20
-LT_LOW_POWER = 18
+LT_HIGH_POWER = -20
+LT_LOW_POWER = -10
 
 wait_ready_sensors(True) # Input True to see what the robot is trying to initialize! False to be silent.
 
@@ -42,15 +42,15 @@ def track_line(color_centers):
     color_right = color_processing.classify(point_right, color_centers)
     
     while color_left != 2 and color_right != 2:
-        if color_left != 3:
+        if color_right != 3: # Note: inverted due to hardware error
             LEFT_MOTOR.set_power(LT_LOW_POWER)
             RIGHT_MOTOR.set_power(LT_HIGH_POWER)
-        elif color_right != 3:
+        elif color_left != 3:
             LEFT_MOTOR.set_power(LT_HIGH_POWER)
             RIGHT_MOTOR.set_power(LT_LOW_POWER)
         else:
             LEFT_MOTOR.set_power(LT_HIGH_POWER)
-            RIGHT_MOTOR.set_power(LT_LOW_POWER)
+            RIGHT_MOTOR.set_power(LT_HIGH_POWER)
 
         sleep(SENSOR_POLL_SLEEP)
         point_left = COLOR_SENSOR_1.get_value()
@@ -75,7 +75,7 @@ def determine_color():
     """
     try:
         while True: # Infinite loop
-            data = COLOR_SENSOR.get_value() # Reads color sensor if conditions are met
+            data = COLOR_SENSOR_1.get_value() # Reads color sensor if conditions are met
             return data
     except BaseException(): # Catches all exceptions including KeyboardInterrupt
         exit()
