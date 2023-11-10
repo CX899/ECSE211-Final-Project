@@ -7,7 +7,7 @@ import color_processing
 color_centers = color_processing.train_model()
 sr.init_all()
 
-cur_location = [0, 0]
+cur_location = [0, 0, "None"]
 facing = 0 # Facing in pos x is 0, pos y is 1, neg x 2, neg y 3
 locations = []
 colors = ["red", "green", "yellow", "purple", "orange", "blue"]
@@ -24,6 +24,9 @@ for i in range(3):
     while not color in colors:
         color = input("Fire color: ")
     locations.append([x, y, color])
+
+drop_fire = False
+color = 0
 try:
     while len(locations) > 0:
         destination = locations[0]
@@ -44,15 +47,24 @@ try:
             elif facing == 0:
                 move.turn_180()
             facing = 2
+
+        if drop_fire and cur_location[0] != destination[0]:
+            move.increment_forward()
+            sr.reset_carousel()
+            sr.select_block(color)
+            drop_fire = False
+            increment = False
         
         while cur_location[0] != destination[0]:
-            move.increment_forward()
+            if increment:
+                move.increment_forward()
             lt.track_line(color_centers)
             if facing == 0:
                 cur_location[0] += 1
             else:
                 cur_location[0] -= 1
             move.align_turn()
+            increment = True
 
         if cur_location[1] < destination[1]:
             if facing == 0:
@@ -70,18 +82,24 @@ try:
             elif facing == 2:
                 move.turn_90(False)
             facing = 3
+
+        if drop_fire:
+            move.increment_forward()
+            sr.reset_carousel()
+            sr.select_block(color)
+            drop_fire = False
+            increment = False
         
         while cur_location[1] != destination[1]:
-            move.increment_forward()
+            if increment:
+                move.increment_forward()
             lt.track_line(color_centers)
             if facing == 1:
                 cur_location[1] += 1
             else:
                 cur_location[1] -= 1
             move.align_turn()
-        
-        sr.reset_carousel()
-        sr.select_block(colors.index(destination[2]))
+            increment = True
 
         locations.pop(0)
 
