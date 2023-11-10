@@ -9,11 +9,11 @@ RIGHT_MOTOR = Motor("C")
 MOTOR_SEPERATION = 8.5 # Functionally the width of the robot, used for calculating turns
 WHEEL_RADIUS = 2.15
 COLOR_SENSOR_OFFSET = 10 # Distance from color sensor to motors, used to realign sensor for turns
-MOTOR_SPEED = 50
+MOTOR_SPEED = 20
 MOTOR_POLL_SLEEP = 0.05
-POWER_LIMIT = 100
-SPEED_LIMIT = 720
-FORWARD_INCREMENT = 15
+POWER_LIMIT = 75
+SPEED_LIMIT = 100
+FORWARD_INCREMENT = 5
 
 def stop():
     LEFT_MOTOR.set_power(0)
