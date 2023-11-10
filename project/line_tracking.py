@@ -73,8 +73,6 @@ def turn_90(next_color, turn_dir, color_centers):
     color = 3
     while color != next_color:
         color = color_processing.classify(sensor.get_value(), color_centers)
-    while color == next_color:
-        color = color_processing.classify(sensor.get_value(), color_centers)
     LEFT_MOTOR.set_power(0)
     RIGHT_MOTOR.set_power(0)
 
