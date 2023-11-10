@@ -14,6 +14,7 @@ MOTOR_POLL_SLEEP = 0.05
 POWER_LIMIT = 100
 SPEED_LIMIT = 720
 FORWARD_INCREMENT = 22
+ALIGNED_INCREMENT = 5
 
 def stop():
     LEFT_MOTOR.set_power(0)
@@ -57,10 +58,13 @@ def turn_180():
     for i in range(2):
         turn_90()
 
-def increment_forward():
+def increment_forward(aligned=False):
     """ Aligns drop chute to the green square. 
     """
-    angle = -180 * FORWARD_INCREMENT / math.pi / WHEEL_RADIUS
+    if aligned:
+        angle = -180 * ALIGNED_INCREMENT / math.pi / WHEEL_RADIUS
+    else:
+        angle = -180 * FORWARD_INCREMENT / math.pi / WHEEL_RADIUS
     LEFT_MOTOR.set_position_relative(angle)
     RIGHT_MOTOR.set_position_relative(angle)
     wait_for_motor(RIGHT_MOTOR)
