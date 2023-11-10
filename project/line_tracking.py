@@ -13,8 +13,8 @@ COLOR_SENSOR_1 = EV3ColorSensor(1)
 COLOR_SENSOR_2 = EV3ColorSensor(2)
 SENSOR_POLL_SLEEP = 0.05
 
-LEFT_MOTOR = Motor("A")
-RIGHT_MOTOR = Motor("B") 
+LEFT_MOTOR = Motor("D")
+RIGHT_MOTOR = Motor("C") 
 
 LT_HIGH_POWER = -20
 LT_LOW_POWER = -10
