@@ -19,7 +19,7 @@ for i in range(3):
     y = "a"
     while not (y.isdigit() and int(y) >= 0 and int(y) < 4):
         y = input(f"Y-Coordinate {i + 1}: ")
-    y = int(x)
+    y = int(y)
     color = ""
     while not color in colors:
         color = input("Fire color: ")
