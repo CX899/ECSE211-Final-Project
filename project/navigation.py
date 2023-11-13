@@ -28,85 +28,81 @@ locations.append([0, 0, "None"])
 
 drop_fire = False
 color = 0
-try:
-    while len(locations) > 0:
-        destination = locations[0]
+increment = True
+while len(locations) > 0:
+    destination = locations[0]
 
-        if cur_location[0] < destination[0]:
-            if facing == 1:
-                move.turn_90()
-            elif facing == 2:
-                move.turn_180()
-            elif facing == 3:
-                move.turn_90(False)
-            facing = 0
-        elif cur_location[0] > destination[0]:
-            if facing == 1:
-                move.turn_90(False)
-            elif facing == 3:
-                move.turn_90()
-            elif facing == 0:
-                move.turn_180()
-            facing = 2
+    if cur_location[0] < destination[0]:
+        if facing == 1:
+            move.turn_90()
+        elif facing == 2:
+            move.turn_180()
+        elif facing == 3:
+            move.turn_90(False)
+        facing = 0
+    elif cur_location[0] > destination[0]:
+        if facing == 1:
+            move.turn_90(False)
+        elif facing == 3:
+            move.turn_90()
+        elif facing == 0:
+            move.turn_180()
+        facing = 2
 
-        if drop_fire and cur_location[0] != destination[0]:
+    if drop_fire and cur_location[0] != destination[0]:
+        move.increment_forward()
+        sr.reset_carousel()
+        sr.select_block(color)
+        drop_fire = False
+        increment = False
+    
+    while cur_location[0] != destination[0]:
+        if increment:
             move.increment_forward()
-            sr.reset_carousel()
-            sr.select_block(color)
-            drop_fire = False
-            increment = False
-        
-        while cur_location[0] != destination[0]:
-            if increment:
-                move.increment_forward()
-            lt.track_line(color_centers)
-            if facing == 0:
-                cur_location[0] += 1
-            else:
-                cur_location[0] -= 1
-            move.align_turn()
-            increment = True
+        lt.track_line(color_centers)
+        if facing == 0:
+            cur_location[0] += 1
+        else:
+            cur_location[0] -= 1
+        move.align_turn()
+        increment = True
 
-        if cur_location[1] < destination[1]:
-            if facing == 0:
-                move.turn_90(False)
-            elif facing == 2:
-                move.turn_90()
-            elif facing == 3:
-                move.turn_180()
-            facing = 1
-        elif cur_location[1] > destination[1]:
-            if facing == 0:
-                move.turn_90()
-            elif facing == 1:
-                move.turn_180()
-            elif facing == 2:
-                move.turn_90(False)
-            facing = 3
+    if cur_location[1] < destination[1]:
+        if facing == 0:
+            move.turn_90(False)
+        elif facing == 2:
+            move.turn_90()
+        elif facing == 3:
+            move.turn_180()
+        facing = 1
+    elif cur_location[1] > destination[1]:
+        if facing == 0:
+            move.turn_90()
+        elif facing == 1:
+            move.turn_180()
+        elif facing == 2:
+            move.turn_90(False)
+        facing = 3
 
-        if drop_fire:
+    if drop_fire:
+        move.increment_forward()
+        sr.reset_carousel()
+        sr.select_block(color)
+        drop_fire = False
+        increment = False
+    
+    while cur_location[1] != destination[1]:
+        if increment:
             move.increment_forward()
-            sr.reset_carousel()
-            sr.select_block(color)
-            drop_fire = False
-            increment = False
-        
-        while cur_location[1] != destination[1]:
-            if increment:
-                move.increment_forward()
-            lt.track_line(color_centers)
-            if facing == 1:
-                cur_location[1] += 1
-            else:
-                cur_location[1] -= 1
-            move.align_turn()
-            increment = True
+        lt.track_line(color_centers)
+        if facing == 1:
+            cur_location[1] += 1
+        else:
+            cur_location[1] -= 1
+        move.align_turn()
+        increment = True
 
-        locations.pop(0)
+    locations.pop(0)
 
-    move.stop()
-    sr.kill()
-
-except BaseException():
-    move.stop()
-    sr.kill()
+move.stop()
+sr.kill()
