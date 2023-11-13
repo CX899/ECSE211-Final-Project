@@ -7,7 +7,7 @@ import color_processing
 color_centers = color_processing.train_model()
 sr.init_all()
 
-cur_location = [0, 0, "None"]
+cur_location = [0, 0]
 facing = 0 # Facing in pos x is 0, pos y is 1, neg x 2, neg y 3
 locations = []
 colors = ["red", "green", "yellow", "purple", "orange", "blue"]
@@ -102,6 +102,9 @@ while len(locations) > 0:
         move.align_turn()
         increment = True
 
+    if destination[2] in colors:
+        color = colors.index(destination[2])
+        drop_fire = True
     locations.pop(0)
 
 move.stop()
