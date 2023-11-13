@@ -54,33 +54,35 @@ def align_turn():
     RIGHT_MOTOR.set_position_relative(angle)
     wait_for_motor(RIGHT_MOTOR)
 
-def turn_90():
+def turn_90(cw=True):
     wait_ready_sensors()
-    
     current_angle = GYRO_SENSOR.get_abs_measure()
-    target_angle = current_angle + 90
-    
-    print(current_angle)
-    print(target_angle)
-            
-    
-    LEFT_MOTOR.set_power(-15)
-    RIGHT_MOTOR.set_power(15)
+    if cw:
+        target_angle = current_angle - 90
+        LEFT_MOTOR.set_power(15)
+        RIGHT_MOTOR.set_power(-15)
 
-    while True:
-        if current_angle < target_angle:
+        while current_angle > target_angle:
+            time.sleep(0.02)
             current_angle = GYRO_SENSOR.get_abs_measure()
+
+    else:
+        target_angle = current_angle + 90
+        
+        LEFT_MOTOR.set_power(-15)
+        RIGHT_MOTOR.set_power(15)
+
+        while current_angle < target_angle:
             time.sleep(0.02)  # Small delay to prevent excessive sensor polling
-            print(abs(current_angle))
-            print(target_angle)
-            print("Turning")
-        else:
-            print("done")
-            break
+            current_angle = GYRO_SENSOR.get_abs_measure()
 
     # Stop motors
     LEFT_MOTOR.set_power(0)
     RIGHT_MOTOR.set_power(0)
+
+def turn_180():
+    turn_90()
+    turn_90()
 
 if __name__ == '__main__':
     init_motor(LEFT_MOTOR)
