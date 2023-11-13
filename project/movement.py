@@ -1,4 +1,4 @@
-from utils.brick import Motor, BP
+from utils.brick import Motor, BP, EV3GyroSensor, wait_ready_sensors
 import math, time
 import color_processing
 import line_tracking
@@ -8,6 +8,7 @@ import line_tracking
 
 LEFT_MOTOR = Motor("D")
 RIGHT_MOTOR = Motor("C") 
+GYRO_SENSOR = EV3GyroSensor(3)
 MOTOR_SEPERATION = 8.5 # Functionally the width of the robot, used for calculating turns
 WHEEL_RADIUS = 2.15
 COLOR_SENSOR_OFFSET = 10 # Distance from color sensor to motors, used to realign sensor for turns
@@ -53,16 +54,47 @@ def align_turn():
     RIGHT_MOTOR.set_position_relative(angle)
     wait_for_motor(RIGHT_MOTOR)
 
+def turn_90():
+    wait_ready_sensors()
+    
+    current_angle = GYRO_SENSOR.get_abs_measure()
+    target_angle = current_angle + 90
+    
+    print(current_angle)
+    print(target_angle)
+            
+    
+    LEFT_MOTOR.set_power(-15)
+    RIGHT_MOTOR.set_power(15)
+
+    while True:
+        if current_angle < target_angle:
+            current_angle = GYRO_SENSOR.get_abs_measure()
+            time.sleep(0.02)  # Small delay to prevent excessive sensor polling
+            print(abs(current_angle))
+            print(target_angle)
+            print("Turning")
+        else:
+            print("done")
+            break
+
+    # Stop motors
+    LEFT_MOTOR.set_power(0)
+    RIGHT_MOTOR.set_power(0)
+
 if __name__ == '__main__':
     init_motor(LEFT_MOTOR)
     init_motor(RIGHT_MOTOR)
-    color_centers = color_processing.train_model()
+    GYRO_SENSOR.reset_measure()
+    time.sleep(0.1)
+    # color_centers = color_processing.train_model()
 
-    track = "y"
-    while track == "y":
-        line_tracking.track_line(color_centers)
-        init_motor(LEFT_MOTOR)
-        init_motor(RIGHT_MOTOR)
-        align_turn
-        track = input("Enter y to go again, anything else to stop: ").lower()
+    # track = "y"
+    # while track == "y":
+    #     line_tracking.track_line(color_centers)
+    #     init_motor(LEFT_MOTOR)
+    #     init_motor(RIGHT_MOTOR)
+    #     align_turn
+    #     track = input("Enter y to go again, anything else to stop: ").lower()
     
+    turn_90()
