@@ -77,8 +77,8 @@ def turn_90(cw=True):
             current_angle = GYRO_SENSOR.get_abs_measure()
 
     # Stop motors
-    LEFT_MOTOR.set_power(0)
-    RIGHT_MOTOR.set_power(0)
+    #LEFT_MOTOR.set_power(0)
+   # RIGHT_MOTOR.set_power(0)
 
 def turn_180():
     turn_90()
