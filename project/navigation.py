@@ -87,6 +87,7 @@ while len(locations) > 0:
     if cur_location[0] < destination[0]:
         if align:
             move.align_turn()
+            align = False
         if facing == 1:
             move.turn_90(False)
         elif facing == 2:
@@ -97,6 +98,7 @@ while len(locations) > 0:
     elif cur_location[0] > destination[0]:
         if align:
             move.align_turn()
+            align = False
         if facing == 1:
             move.turn_90()
         elif facing == 3:
@@ -108,6 +110,7 @@ while len(locations) > 0:
     while cur_location[0] != destination[0]:
         if align:
             move.align_turn()
+            align = False
         lt.track_line(color_centers)
         if facing == 0:
             cur_location[0] += 1
@@ -119,6 +122,7 @@ while len(locations) > 0:
     if cur_location[1] < destination[1]:
         if align:
             move.align_turn()
+            align = False
         if facing == 0:
             move.turn_90()
         elif facing == 2:
@@ -129,6 +133,7 @@ while len(locations) > 0:
     elif cur_location[1] > destination[1]:
         if align:
             move.align_turn()
+            align = False
         if facing == 0:
             move.turn_90(False)
         elif facing == 1:
@@ -140,6 +145,7 @@ while len(locations) > 0:
     while cur_location[1] != destination[1]:
         if align:
             move.align_turn()
+            align = False
         lt.track_line(color_centers)
         if facing == 1:
             cur_location[1] += 1
