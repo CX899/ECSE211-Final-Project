@@ -150,7 +150,6 @@ while len(locations) > 0:
         else:
             facing = 1
         move.increment_forward()
-        sr.reset_carousel()
         sr.select_block(color)
     
     locations.pop(0)
