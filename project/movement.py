@@ -11,7 +11,7 @@ RIGHT_MOTOR = Motor("C")
 GYRO_SENSOR = EV3GyroSensor(3)
 MOTOR_SEPERATION = 8.5 # Functionally the width of the robot, used for calculating turns
 WHEEL_RADIUS = 2.15
-COLOR_SENSOR_OFFSET = 10 # Distance from color sensor to motors, used to realign sensor for turns
+COLOR_SENSOR_OFFSET = 17 # Distance from color sensor to motors, used to realign sensor for turns
 MOTOR_SPEED = 20
 MOTOR_POLL_SLEEP = 0.05
 POWER_LIMIT = 75
@@ -76,10 +76,6 @@ def turn_90(cw=True):
             time.sleep(0.02)  # Small delay to prevent excessive sensor polling
             current_angle = GYRO_SENSOR.get_abs_measure()
 
-    # Stop motors
-    LEFT_MOTOR.set_power(0)
-    RIGHT_MOTOR.set_power(0)
-
 def turn_180():
     turn_90()
     turn_90()
@@ -98,5 +94,3 @@ if __name__ == '__main__':
     #     init_motor(RIGHT_MOTOR)
     #     align_turn
     #     track = input("Enter y to go again, anything else to stop: ").lower()
-    
-    turn_90()
