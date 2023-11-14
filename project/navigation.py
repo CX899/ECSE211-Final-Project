@@ -170,5 +170,6 @@ while len(locations) > 0:
     
     locations.pop(0)
 
+move.align_turn()
 move.stop()
 sr.kill()
