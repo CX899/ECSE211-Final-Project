@@ -73,8 +73,11 @@ for i in range(3):
     color = ""
     while not color in colors:
         color = input("Fire color: ")
-    locations.append([x, y, color])
-locations.append([0, 0, "None"])
+    locations.extend(calc_path(blocked, prev, [x, y, color]))
+    prev = [locations[-2]]
+    blocked[x][y] = True
+    locations.append(prev)
+locations.extend(calc_path(blocked, prev, [0, 0, "None"]))
 
 drop_fire = False
 color = 0
