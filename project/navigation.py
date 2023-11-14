@@ -80,11 +80,13 @@ for i in range(3):
 locations.extend(calc_path(blocked, prev, [0, 0, "None"]))
 
 color = 0
+align = False
 while len(locations) > 0:
     destination = locations[0]
 
     if cur_location[0] < destination[0]:
-        move.align_turn()
+        if align:
+            move.align_turn()
         if facing == 1:
             move.turn_90(False)
         elif facing == 2:
@@ -93,7 +95,8 @@ while len(locations) > 0:
             move.turn_90()
         facing = 0
     elif cur_location[0] > destination[0]:
-        move.align_turn()
+        if align:
+            move.align_turn()
         if facing == 1:
             move.turn_90()
         elif facing == 3:
@@ -103,16 +106,19 @@ while len(locations) > 0:
         facing = 2
     
     while cur_location[0] != destination[0]:
-        move.align_turn()
+        if align:
+            move.align_turn()
         lt.track_line(color_centers)
         if facing == 0:
             cur_location[0] += 1
         else:
             cur_location[0] -= 1
+        align = True
         
 
     if cur_location[1] < destination[1]:
-        move.align_turn()
+        if align:
+            move.align_turn()
         if facing == 0:
             move.turn_90()
         elif facing == 2:
@@ -121,7 +127,8 @@ while len(locations) > 0:
             move.turn_180()
         facing = 1
     elif cur_location[1] > destination[1]:
-        move.align_turn()
+        if align:
+            move.align_turn()
         if facing == 0:
             move.turn_90(False)
         elif facing == 1:
@@ -131,14 +138,17 @@ while len(locations) > 0:
         facing = 3
     
     while cur_location[1] != destination[1]:
-        move.align_turn()
+        if align:
+            move.align_turn()
         lt.track_line(color_centers)
         if facing == 1:
             cur_location[1] += 1
         else:
             cur_location[1] -= 1
+        align = True
 
     if destination[2] in colors:
+        align = False
         color = colors.index(destination[2])
         move.turn_180()
         if facing == 0:
