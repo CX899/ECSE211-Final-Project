@@ -9,8 +9,8 @@ CAROUSSEL_MOTOR = Motor("A")
 LEVER_MOTOR = Motor("B")
 MOTOR_SPEED = 25
 MOTOR_POLL_SLEEP = 0.05
-POWER_LIMIT = 75
-SPEED_LIMIT = 100
+POWER_LIMIT = 125
+SPEED_LIMIT = 150
 
 #### FUNCTIONS ####
 def kill():
@@ -30,9 +30,9 @@ def wait_for_motor(motor: Motor):
     
 def init_motor(motor: Motor):
     try:
-        motor.set_position(0)
         motor.set_limits(POWER_LIMIT,SPEED_LIMIT)
         motor.set_power(0)
+        time.sleep(1)
     except IOError as error:
         print(error)
 
@@ -51,59 +51,70 @@ def select_block(color_to_select):
     -------
         None
     """
+    init_all()
+    LEVER_MOTOR.set_limits(200, 720)
+
+    
     # Boot in red suppressant
     if color_to_select == 0:
-        LEVER_MOTOR.set_position_relative(-360)
-        wait_for_motor(LEVER_MOTOR)
+        pass
+    
     # Boot in green suppressant    
     elif color_to_select == 1:
-        CAROUSSEL_MOTOR.set_position_relative(60)
+        CAROUSSEL_MOTOR.set_position_relative(65)
         wait_for_motor(CAROUSSEL_MOTOR)
-        LEVER_MOTOR.set_position_relative(-360)
+        
     # Boot in yellow suppressant
     elif color_to_select == 2:
         CAROUSSEL_MOTOR.set_position_relative(120)
         wait_for_motor(CAROUSSEL_MOTOR)
-        LEVER_MOTOR.set_position_relative(-360)
+        
     # Boot in purple suppressant
     elif color_to_select == 3:
         CAROUSSEL_MOTOR.set_position_relative(180)
         wait_for_motor(CAROUSSEL_MOTOR)
-        LEVER_MOTOR.set_position_relative(-360)
+
     # Boot in orange suppressant
     elif color_to_select == 4:
-        CAROUSSEL_MOTOR.set_position_relative(-120)
+        CAROUSSEL_MOTOR.set_position_relative(-117)
         wait_for_motor(CAROUSSEL_MOTOR)
-        LEVER_MOTOR.set_position_relative(-360)
+
     # Boot in blue suppressant
     else:
         CAROUSSEL_MOTOR.set_position_relative(-60)
         wait_for_motor(CAROUSSEL_MOTOR)
-        LEVER_MOTOR.set_position_relative(-360)
 
+    turn_lever()
+    reset_carousel()
+    time.sleep(2)
     return None
 
 def reset_carousel():
-    # Resets carousel and lever to 0 position.
-    CAROUSSEL_MOTOR.set_position(0)
-    wait_for_motor(CAROUSSEL_MOTOR)
-    LEVER_MOTOR.set_position(0)
-    wait_for_motor(LEVER_MOTOR)
+    # Resets carousel and lever to initial position.
+    CAROUSSEL_MOTOR.set_position(20)
+
 
 def init_all():
     init_motor(CAROUSSEL_MOTOR)
     init_motor(LEVER_MOTOR)
-    wait_ready_sensors()    
+    wait_ready_sensors()
+    
+def turn_lever():
+    LEVER_MOTOR.set_position_relative(-360)
+    wait_for_motor(LEVER_MOTOR)
+    LEVER_MOTOR.set_position_relative(360)
+    wait_for_motor(LEVER_MOTOR)
 
 #### MAIN LOOP ####
-if __name__ == '__main__':
-    init_all()
-    reset_carousel()
+if __name__ == '__main__':        
     try:
-        color_to_select = 0 # Dummy variable
-        #color_to_select = line_tracking.determine_color()
-        select_block(color_to_select)
+        select_block(0)
+        select_block(1)
+        select_block(2)
+        select_block(3)
+        select_block(4)
+        select_block(5)
+
+
     except KeyboardInterrupt:
         kill()
-        
-                
