@@ -25,7 +25,6 @@ def calc_path(blocked, start, target):
                         next_cells.append(a)
             elif not blocked[cell[0]][cell[1]]:
                 weights = [distances[a[0]][a[1]] for a in adjacent + [cell]]
-                print(f"Cell: {cell}\nAdjacent: {adjacent}\nWeights: {weights}\n")
                 distances[cell[0]][cell[1]] = min(weights) + 1
                 for a in adjacent:
                     if distances[a[0]][a[1]] == 100:
@@ -33,7 +32,6 @@ def calc_path(blocked, start, target):
             else:
                 distances[cell[0]][cell[1]] = 200
         cur_cells = next_cells
-    print(distances)
     path = []
     cell = start
     while cell[0] != target[0] or cell[1] != target[1]:
@@ -58,6 +56,8 @@ color_centers = color_processing.train_model()
 sr.init_all()
 
 cur_location = [0, 0]
+prev = [0, 0]
+blocked = [[False for i in range(4)] for j in range(4)]
 facing = 0 # Facing in pos x is 0, pos y is 1, neg x 2, neg y 3
 locations = []
 colors = ["red", "green", "yellow", "purple", "orange", "blue"]
