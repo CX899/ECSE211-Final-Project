@@ -58,9 +58,6 @@ def track_line(color_centers):
         color_left = color_processing.classify(point_left, color_centers)
         color_right = color_processing.classify(point_right, color_centers)
 
-    LEFT_MOTOR.set_power(0)
-    RIGHT_MOTOR.set_power(0)
-
 def turn_90(next_color, turn_dir, color_centers):
     if turn_dir == "cw":
         sensor = COLOR_SENSOR_2
