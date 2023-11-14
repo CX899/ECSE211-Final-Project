@@ -74,10 +74,11 @@ for i in range(3):
     while not color in colors:
         color = input("Fire color: ")
     locations.extend(calc_path(blocked, prev, [x, y, color]))
-    prev = [locations[-2]]
+    prev = locations[-2]
     blocked[x][y] = True
     locations.append(prev)
 locations.extend(calc_path(blocked, prev, [0, 0, "None"]))
+print(locations)
 
 color = 0
 while len(locations) > 0:
