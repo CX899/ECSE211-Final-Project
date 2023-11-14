@@ -3,6 +3,56 @@ import movement as move
 import line_tracking as lt
 import color_processing
 
+def calc_path(blocked, start, target):
+    distances = [[100 for i in range(4)] for j in range(4)]
+    cur_cells = [target]
+    while len(cur_cells) > 0:
+        next_cells = []
+        for cell in cur_cells:
+            adjacent = []
+            if cell[0] > 0:
+                adjacent.append([cell[0] - 1, cell[1]])
+            if cell[0] < 3:
+                adjacent.append([cell[0] + 1, cell[1]])
+            if cell[1] > 0:
+                adjacent.append([cell[0], cell[1] - 1])
+            if cell[1] < 3:
+                adjacent.append([cell[0], cell[1] + 1])        
+            if cell == target:
+                distances[cell[0]][cell[1]] = 0
+                for a in adjacent:
+                    if distances[a[0]][a[1]] == 100:
+                        next_cells.append(a)
+            elif not blocked[cell[0]][cell[1]]:
+                weights = [distances[a[0]][a[1]] for a in adjacent + [cell]]
+                print(f"Cell: {cell}\nAdjacent: {adjacent}\nWeights: {weights}\n")
+                distances[cell[0]][cell[1]] = min(weights) + 1
+                for a in adjacent:
+                    if distances[a[0]][a[1]] == 100:
+                        next_cells.append(a)
+            else:
+                distances[cell[0]][cell[1]] = 200
+        cur_cells = next_cells
+    print(distances)
+    path = []
+    cell = start
+    while cell[0] != target[0] or cell[1] != target[1]:
+        adjacent = []
+        if cell[0] > 0:
+            adjacent.append([cell[0] - 1, cell[1]])
+        if cell[0] < 3:
+            adjacent.append([cell[0] + 1, cell[1]])
+        if cell[1] > 0:
+            adjacent.append([cell[0], cell[1] - 1])
+        if cell[1] < 3:
+            adjacent.append([cell[0], cell[1] + 1]) 
+        weights = [distances[a[0]][a[1]] for a in adjacent]
+        coord = adjacent[weights.index(min(weights))]
+        coord.append("None")
+        path.append(coord)
+        cell = path[-1]
+    path[-1][-1] = target[2]
+    return path
 
 color_centers = color_processing.train_model()
 sr.init_all()
