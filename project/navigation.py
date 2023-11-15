@@ -60,6 +60,19 @@ prev = [0, 0]
 blocked = [[False for i in range(4)] for j in range(4)]
 facing = 0 # Facing in pos x is 0, pos y is 1, neg x 2, neg y 3
 locations = []
+colors = ["D", "F", "B", "C", "E", "A"]
+fires = input("Enter fire locations and suppressant types: ").split(",")
+for i in range(3):
+    x = int(fires[i])
+    y = int(fires[i+1])
+    color = fires[i+2]
+    locations.extend(calc_path(blocked, prev, [x, y, color]))
+    prev = locations[-2]
+    blocked[x][y] = True
+    locations.append(prev)
+locations.extend(calc_path(blocked, prev, [0, 0, "None"]))
+
+"""
 colors = ["red", "green", "yellow", "purple", "orange", "blue"]
 for i in range(3):
     x = "a"
@@ -78,7 +91,7 @@ for i in range(3):
     blocked[x][y] = True
     locations.append(prev)
 locations.extend(calc_path(blocked, prev, [0, 0, "None"]))
-
+"""
 color = 0
 align = False
 while len(locations) > 0:
