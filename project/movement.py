@@ -52,6 +52,7 @@ def align_turn():
     """ Rolls robot forward to center green square between the motors before turning,
     so as to align the color sensor with the perpendicular line when the turn is complete.
     """
+    # TODO: change left/right motor powers to account for drift
     LEFT_MOTOR.set_limits(POWER_LIMIT, SPEED_LIMIT)
     RIGHT_MOTOR.set_limits(POWER_LIMIT, SPEED_LIMIT)
     angle = -180 * COLOR_SENSOR_OFFSET / math.pi / WHEEL_RADIUS
