@@ -15,9 +15,9 @@ COLOR_SENSOR_OFFSET = 17 # Distance from color sensor to motors, used to realign
 COLOR_SENSOR_OFFSET = 17 # Distance from color sensor to motors, used to realign sensor for turns
 MOTOR_SPEED = 20
 MOTOR_POLL_SLEEP = 0.05
-POWER_LIMIT = 75
+POWER_LIMIT = 20
 SPEED_LIMIT = 100
-FORWARD_INCREMENT = 5
+FORWARD_INCREMENT = 9.5
 
 def stop():
     LEFT_MOTOR.set_power(0)
@@ -41,7 +41,9 @@ def init_motor(motor: Motor):
 def increment_forward():
     """ Aligns drop chute to the green square. 
     """
-    angle = -180 * FORWARD_INCREMENT / math.pi / WHEEL_RADIUS
+    LEFT_MOTOR.set_limits(20, SPEED_LIMIT)
+    RIGHT_MOTOR.set_limits(20, SPEED_LIMIT)
+    angle = 180 * FORWARD_INCREMENT / math.pi / WHEEL_RADIUS
     LEFT_MOTOR.set_position_relative(angle)
     RIGHT_MOTOR.set_position_relative(angle)
     wait_for_motor(RIGHT_MOTOR)
@@ -50,6 +52,8 @@ def align_turn():
     """ Rolls robot forward to center green square between the motors before turning,
     so as to align the color sensor with the perpendicular line when the turn is complete.
     """
+    LEFT_MOTOR.set_limits(POWER_LIMIT, SPEED_LIMIT)
+    RIGHT_MOTOR.set_limits(POWER_LIMIT, SPEED_LIMIT)
     angle = -180 * COLOR_SENSOR_OFFSET / math.pi / WHEEL_RADIUS
     LEFT_MOTOR.set_position_relative(angle)
     RIGHT_MOTOR.set_position_relative(angle)

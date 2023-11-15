@@ -16,8 +16,8 @@ SENSOR_POLL_SLEEP = 0.05
 LEFT_MOTOR = Motor("D")
 RIGHT_MOTOR = Motor("C") 
 
-LT_HIGH_POWER = -20
-LT_LOW_POWER = -10
+LT_HIGH_POWER = -22
+LT_LOW_POWER = -8
 
 wait_ready_sensors(True) # Input True to see what the robot is trying to initialize! False to be silent.
 

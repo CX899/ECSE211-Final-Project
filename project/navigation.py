@@ -62,6 +62,9 @@ facing = 0 # Facing in pos x is 0, pos y is 1, neg x 2, neg y 3
 locations = []
 colors = ["D", "F", "B", "C", "E", "A"]
 fires = input("Enter fire locations and suppressant types: ").split(",")
+blocked[int(fires[0])][int(fires[1])] = True
+blocked[int(fires[3])][int(fires[4])] = True
+blocked[int(fires[6])][int(fires[7])] = True
 for i in range(3):
     x = int(fires[i * 3])
     y = int(fires[i * 3 +1])
