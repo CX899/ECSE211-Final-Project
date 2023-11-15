@@ -91,7 +91,7 @@ def select_block(color_to_select):
 
 def reset_carousel():
     # Resets carousel and lever to initial position.
-    CAROUSSEL_MOTOR.set_position(20)
+    CAROUSSEL_MOTOR.set_position(0)
 
 
 def init_all():
