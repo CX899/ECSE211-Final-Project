@@ -63,9 +63,9 @@ locations = []
 colors = ["D", "F", "B", "C", "E", "A"]
 fires = input("Enter fire locations and suppressant types: ").split(",")
 for i in range(3):
-    x = int(fires[i])
-    y = int(fires[i+1])
-    color = fires[i+2]
+    x = int(fires[i * 3])
+    y = int(fires[i * 3 +1])
+    color = fires[i * 3 +2]
     locations.extend(calc_path(blocked, prev, [x, y, color]))
     prev = locations[-2]
     blocked[x][y] = True
