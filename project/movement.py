@@ -18,6 +18,7 @@ MOTOR_POLL_SLEEP = 0.05
 POWER_LIMIT = 20
 SPEED_LIMIT = 100
 FORWARD_INCREMENT = 9.5
+MOTOR_ADJUST = 1
 
 def stop():
     LEFT_MOTOR.set_power(0)
@@ -42,7 +43,7 @@ def increment_forward():
     """ Aligns drop chute to the green square. 
     """
     LEFT_MOTOR.set_limits(20, SPEED_LIMIT)
-    RIGHT_MOTOR.set_limits(20, SPEED_LIMIT)
+    RIGHT_MOTOR.set_limits(20 + MOTOR_ADJUST, SPEED_LIMIT)
     angle = 180 * FORWARD_INCREMENT / math.pi / WHEEL_RADIUS
     LEFT_MOTOR.set_position_relative(angle)
     RIGHT_MOTOR.set_position_relative(angle)
@@ -54,7 +55,7 @@ def align_turn():
     """
     # TODO: change left/right motor powers to account for drift
     LEFT_MOTOR.set_limits(POWER_LIMIT, SPEED_LIMIT)
-    RIGHT_MOTOR.set_limits(POWER_LIMIT, SPEED_LIMIT)
+    RIGHT_MOTOR.set_limits(POWER_LIMIT + MOTOR_ADJUST, SPEED_LIMIT)
     angle = -180 * COLOR_SENSOR_OFFSET / math.pi / WHEEL_RADIUS
     LEFT_MOTOR.set_position_relative(angle)
     RIGHT_MOTOR.set_position_relative(angle)
@@ -66,7 +67,7 @@ def turn_90(cw=True):
     if cw:
         target_angle = current_angle - 90
         LEFT_MOTOR.set_power(15)
-        RIGHT_MOTOR.set_power(-15)
+        RIGHT_MOTOR.set_power(-15 - MOTOR_ADJUST)
 
         while current_angle > target_angle:
             time.sleep(0.02)
@@ -76,7 +77,7 @@ def turn_90(cw=True):
         target_angle = current_angle + 90
         
         LEFT_MOTOR.set_power(-15)
-        RIGHT_MOTOR.set_power(15)
+        RIGHT_MOTOR.set_power(15 + MOTOR_ADJUST)
 
         while current_angle < target_angle:
             time.sleep(0.02)  # Small delay to prevent excessive sensor polling
