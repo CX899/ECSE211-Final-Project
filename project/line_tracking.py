@@ -18,7 +18,7 @@ RIGHT_MOTOR = Motor("C")
 
 LT_HIGH_POWER = -25
 LT_LOW_POWER = -5
-MOTOR_ADJUST = -1.5
+MOTOR_ADJUST = -2
 
 wait_ready_sensors(True) # Input True to see what the robot is trying to initialize! False to be silent.
 
@@ -46,9 +46,11 @@ def track_line(color_centers):
         if color_right != 3: # Note: inverted due to hardware error
             LEFT_MOTOR.set_power(LT_LOW_POWER)
             RIGHT_MOTOR.set_power(LT_HIGH_POWER + MOTOR_ADJUST)
+            sleep(0.25)
         elif color_left != 3:
             LEFT_MOTOR.set_power(LT_HIGH_POWER)
             RIGHT_MOTOR.set_power(LT_LOW_POWER)
+            sleep(0.25)
         else:
             LEFT_MOTOR.set_power(LT_HIGH_POWER + 5)
             RIGHT_MOTOR.set_power(LT_HIGH_POWER + 5 + MOTOR_ADJUST)
