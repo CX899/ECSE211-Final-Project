@@ -46,11 +46,11 @@ def track_line(color_centers):
         if color_right != 3: # Note: inverted due to hardware error
             LEFT_MOTOR.set_power(LT_LOW_POWER)
             RIGHT_MOTOR.set_power(LT_HIGH_POWER + MOTOR_ADJUST)
-            sleep(0.25)
+            sleep(0.2)
         elif color_left != 3:
             LEFT_MOTOR.set_power(LT_HIGH_POWER)
             RIGHT_MOTOR.set_power(LT_LOW_POWER)
-            sleep(0.25)
+            sleep(0.2)
         else:
             LEFT_MOTOR.set_power(LT_HIGH_POWER + 5)
             RIGHT_MOTOR.set_power(LT_HIGH_POWER + 5 + MOTOR_ADJUST)
