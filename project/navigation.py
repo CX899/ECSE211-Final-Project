@@ -75,26 +75,6 @@ for i in range(3):
     locations.append(prev)
 locations.extend(calc_path(blocked, prev, [0, 0, "None"]))
 
-"""
-colors = ["red", "green", "yellow", "purple", "orange", "blue"]
-for i in range(3):
-    x = "a"
-    while not (x.isdigit() and int(x) >= 0 and int(x) < 4):
-        x = input(f"X-Coordinate {i + 1}: ")
-    x = int(x)
-    y = "a"
-    while not (y.isdigit() and int(y) >= 0 and int(y) < 4):
-        y = input(f"Y-Coordinate {i + 1}: ")
-    y = int(y)
-    color = ""
-    while not color in colors:
-        color = input("Fire color: ")
-    locations.extend(calc_path(blocked, prev, [x, y, color]))
-    prev = locations[-2]
-    blocked[x][y] = True
-    locations.append(prev)
-locations.extend(calc_path(blocked, prev, [0, 0, "None"]))
-"""
 color = 0
 align = False
 while len(locations) > 0:
